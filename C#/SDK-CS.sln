@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginEmpty", "PluginEmpty\PluginEmpty.csproj", "{D31F73ED-3978-44FA-B599-49584BA30D3A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginParentChild", "PluginParentChild\PluginParentChild.csproj", "{CA8F01AC-9582-4820-AA24-919EC747536E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginSystemVersion", "PluginSystemVersion\PluginSystemVersion.csproj", "{F43D0210-4CED-49B0-93C4-C694EFB44282}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D31F73ED-3978-44FA-B599-49584BA30D3A}.Debug|x64.ActiveCfg = Debug|x64
+		{D31F73ED-3978-44FA-B599-49584BA30D3A}.Debug|x64.Build.0 = Debug|x64
+		{D31F73ED-3978-44FA-B599-49584BA30D3A}.Debug|x86.ActiveCfg = Debug|x86
+		{D31F73ED-3978-44FA-B599-49584BA30D3A}.Debug|x86.Build.0 = Debug|x86
+		{D31F73ED-3978-44FA-B599-49584BA30D3A}.Release|x64.ActiveCfg = Release|x64
+		{D31F73ED-3978-44FA-B599-49584BA30D3A}.Release|x64.Build.0 = Release|x64
+		{D31F73ED-3978-44FA-B599-49584BA30D3A}.Release|x86.ActiveCfg = Release|x86
+		{D31F73ED-3978-44FA-B599-49584BA30D3A}.Release|x86.Build.0 = Release|x86
+		{CA8F01AC-9582-4820-AA24-919EC747536E}.Debug|x64.ActiveCfg = Debug|x64
+		{CA8F01AC-9582-4820-AA24-919EC747536E}.Debug|x64.Build.0 = Debug|x64
+		{CA8F01AC-9582-4820-AA24-919EC747536E}.Debug|x86.ActiveCfg = Debug|x86
+		{CA8F01AC-9582-4820-AA24-919EC747536E}.Debug|x86.Build.0 = Debug|x86
+		{CA8F01AC-9582-4820-AA24-919EC747536E}.Release|x64.ActiveCfg = Release|x64
+		{CA8F01AC-9582-4820-AA24-919EC747536E}.Release|x64.Build.0 = Release|x64
+		{CA8F01AC-9582-4820-AA24-919EC747536E}.Release|x86.ActiveCfg = Release|x86
+		{CA8F01AC-9582-4820-AA24-919EC747536E}.Release|x86.Build.0 = Release|x86
+		{F43D0210-4CED-49B0-93C4-C694EFB44282}.Debug|x64.ActiveCfg = Debug|x64
+		{F43D0210-4CED-49B0-93C4-C694EFB44282}.Debug|x64.Build.0 = Debug|x64
+		{F43D0210-4CED-49B0-93C4-C694EFB44282}.Debug|x86.ActiveCfg = Debug|x86
+		{F43D0210-4CED-49B0-93C4-C694EFB44282}.Debug|x86.Build.0 = Debug|x86
+		{F43D0210-4CED-49B0-93C4-C694EFB44282}.Release|x64.ActiveCfg = Release|x64
+		{F43D0210-4CED-49B0-93C4-C694EFB44282}.Release|x64.Build.0 = Release|x64
+		{F43D0210-4CED-49B0-93C4-C694EFB44282}.Release|x86.ActiveCfg = Release|x86
+		{F43D0210-4CED-49B0-93C4-C694EFB44282}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
