@@ -3,7 +3,7 @@ The Rainmeter plugin software development kit contains the necessary tools and e
 **Download:**
 
 *   Use git (`git clone git@github.com:rainmeter/rainmeter-plugin-sdk.git`)
-*   Use svn (`svn checkout https://github.com/rainmeter/rainmeter-plugin-sdk/trunk rainmeter`)
+*   Use svn (`svn checkout https://github.com/rainmeter/rainmeter-plugin-sdk/trunk rainmeter-plugin-sdk`)
 *   Download the [current snapshot](https://github.com/rainmeter/rainmeter-plugin-sdk/zipball/master) as a .zip archive.
 
 To install the tools required to build the plugins, follow the "Build tools" section of the <a href="http://rainmeter.net/cms/Source">Source Code</a> page.
@@ -11,17 +11,6 @@ To install the tools required to build the plugins, follow the "Build tools" sec
 **Documentation:** The documentation is available at the [wiki](https://github.com/rainmeter/rainmeter-plugin-sdk/wiki/_pages).
 
 _**Note:**_ To build 64bit C/C++ plugins with Visual C++ Express, right-click on the plugin project(s) -> `Properties` -> `Configuration Properties` -> `General`, and change the `Platform Toolset` field to `Windows7.1SDK` for the Release\x64 and Debug\x64 configurations. With Visual Studio, no changes are necessary.
-
-
-### Plugin SDK Changelog
-
-#### Feb 22, 2012
-
-*    Added support for ExecuteBang.
-
-#### Feb 5, 2012
-
-*    Initial release.
 
 ### Old plugin API
 
