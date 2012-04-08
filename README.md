@@ -6,7 +6,7 @@ The Rainmeter plugin software development kit contains the necessary tools and e
 *   Use svn (`svn checkout https://github.com/rainmeter/rainmeter-plugin-sdk/trunk rainmeter-plugin-sdk`)
 *   Download the [current snapshot](https://github.com/rainmeter/rainmeter-plugin-sdk/zipball/master) as a .zip archive.
 
-To install the tools required to build the plugins, follow the "Build tools" section of the <a href="http://rainmeter.net/cms/Source">Source Code</a> page.
+To install the tools required to build the plugins, follow the [instructions](https://raw.github.com/rainmeter/rainmeter/master/Build/Instructions.txt).
 
 **Documentation:** The documentation is available at the [wiki](https://github.com/rainmeter/rainmeter-plugin-sdk/wiki/_pages).
 
