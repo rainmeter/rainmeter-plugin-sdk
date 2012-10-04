@@ -151,9 +151,9 @@ namespace PluginSystemVersion
                     return string.Format("{0}.{1} (Build {2})", Environment.OSVersion.Version.Major, Environment.OSVersion.Version.Minor, Environment.OSVersion.Version.Build);
             }
 
-            // MeasureType.Major and MeasureType.Minor are numbers. Therefore,
-            // null is returned here for them. This is to inform Rainmeter that
-            // it can treat MeasureType.Major and MeasureType.Minor as numbers.
+            // MeasureType.Major, MeasureType.Minor, and MeasureType.Number are
+            // numbers. Therefore, null is returned here for them. This is to
+            // inform Rainmeter that it can treat those types as numbers.
 
             return null;
         }

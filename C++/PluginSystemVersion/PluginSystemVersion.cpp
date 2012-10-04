@@ -20,7 +20,7 @@
 #include <cstdio>
 #include "../../API/RainmeterAPI.h"
 
-// Overview: This is a blank canvas on which to build your plugin.
+// Overview: This example demonstrates the basic concept of Rainmeter C# plugins.
 
 // Sample skin:
 /*
@@ -174,6 +174,10 @@ PLUGIN_EXPORT LPCWSTR GetString(void* data)
 		_snwprintf_s(buffer, _TRUNCATE, L"%i.%i (Build %i)", (int)osvi.dwMajorVersion, (int)osvi.dwMinorVersion, (int)osvi.dwBuildNumber);
 		return buffer;
 	}
+
+	// MEASURE_MAJOR, MEASURE_MINOR, and MEASURE_NUMBER are numbers. Therefore,
+	// NULL is returned here for them. This is to inform Rainmeter that it can
+	// treat those types as numbers.
 
 	return NULL;
 }
