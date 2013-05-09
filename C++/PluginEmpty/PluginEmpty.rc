@@ -25,14 +25,14 @@ BEGIN
         BLOCK "040904E4"
         BEGIN
             VALUE "FileVersion", "1.0.0.0"
-            VALUE "LegalCopyright", "© 2012 - YOUR NAME"
+            VALUE "LegalCopyright", "© 2013 - YOUR NAME"
 
             // Don't change the entries below!
             VALUE "ProductName", "Rainmeter"
 #ifdef _WIN64
-            VALUE "ProductVersion", "2.3.0.1172 (64-bit)"
+            VALUE "ProductVersion", "2.5.0.1842 (64-bit)"
 #else
-            VALUE "ProductVersion", "2.3.0.1172 (32-bit)"
+            VALUE "ProductVersion", "2.5.0.1842 (32-bit)"
 #endif //_WIN64
         END
     END
