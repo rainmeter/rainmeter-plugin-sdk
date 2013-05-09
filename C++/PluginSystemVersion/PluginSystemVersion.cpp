@@ -20,7 +20,7 @@
 #include <cstdio>
 #include "../../API/RainmeterAPI.h"
 
-// Overview: This example demonstrates the basic concept of Rainmeter C# plugins.
+// Overview: This example demonstrates the basic concept of Rainmeter C++ plugins.
 
 // Sample skin:
 /*
