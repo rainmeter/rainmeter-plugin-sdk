@@ -90,7 +90,7 @@ namespace PluginSystemVersion
             String
         }
 
-        MeasureType Type = MeasureType.Major;
+        private MeasureType Type = MeasureType.Major;
 
         internal Measure()
         {
@@ -161,37 +161,57 @@ namespace PluginSystemVersion
 
     public static class Plugin
     {
+        static IntPtr StringBuffer = IntPtr.Zero;
+
         [DllExport]
-        public unsafe static void Initialize(void** data, void* rm)
+        public static void Initialize(ref IntPtr data, IntPtr rm)
         {
-            *data = (void*)GCHandle.ToIntPtr(GCHandle.Alloc(new Measure()));
+            data = GCHandle.ToIntPtr(GCHandle.Alloc(new Measure()));
         }
 
         [DllExport]
-        public unsafe static void Finalize(void* data)
+        public static void Finalize(IntPtr data)
         {
-            GCHandle.FromIntPtr((IntPtr)data).Free();
+            GCHandle.FromIntPtr(data).Free();
+
+            if (StringBuffer != IntPtr.Zero)
+            {
+                Marshal.FreeHGlobal(StringBuffer);
+                StringBuffer = IntPtr.Zero;
+            }
         }
 
         [DllExport]
-        public unsafe static void Reload(void* data, void* rm, double* maxValue)
+        public static void Reload(IntPtr data, IntPtr rm, ref double maxValue)
         {
-            Measure measure = (Measure)GCHandle.FromIntPtr((IntPtr)data).Target;
-            measure.Reload(new Rainmeter.API((IntPtr)rm), ref *maxValue);
+            Measure measure = (Measure)GCHandle.FromIntPtr(data).Target;
+            measure.Reload(new Rainmeter.API(rm), ref maxValue);
         }
 
         [DllExport]
-        public unsafe static double Update(void* data)
+        public static double Update(IntPtr data)
         {
-            Measure measure = (Measure)GCHandle.FromIntPtr((IntPtr)data).Target;
+            Measure measure = (Measure)GCHandle.FromIntPtr(data).Target;
             return measure.Update();
         }
 
         [DllExport]
-        public unsafe static char* GetString(void* data)
+        public static IntPtr GetString(IntPtr data)
         {
-            Measure measure = (Measure)GCHandle.FromIntPtr((IntPtr)data).Target;
-            fixed (char* s = measure.GetString()) return s;
+            Measure measure = (Measure)GCHandle.FromIntPtr(data).Target;
+            if (StringBuffer != IntPtr.Zero)
+            {
+                Marshal.FreeHGlobal(StringBuffer);
+                StringBuffer = IntPtr.Zero;
+            }
+
+            string stringValue = measure.GetString();
+            if (stringValue != null)
+            {
+                StringBuffer = Marshal.StringToHGlobalUni(stringValue);
+            }
+
+            return StringBuffer;
         }
     }
 }

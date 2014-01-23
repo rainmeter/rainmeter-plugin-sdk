@@ -214,9 +214,9 @@ namespace PluginParentChild
     public static class Plugin
     {
         [DllExport]
-        public unsafe static void Initialize(void** data, void* rm)
+        public static void Initialize(ref IntPtr data, IntPtr rm)
         {
-            Rainmeter.API api = new Rainmeter.API((IntPtr)rm);
+            Rainmeter.API api = new Rainmeter.API(rm);
 
             string parent = api.ReadString("ParentName", "");
             Measure measure;
@@ -229,28 +229,28 @@ namespace PluginParentChild
                 measure = new ChildMeasure();
             }
 
-            *data = (void*)GCHandle.ToIntPtr(GCHandle.Alloc(measure));
+            data = GCHandle.ToIntPtr(GCHandle.Alloc(measure));
         }
 
         [DllExport]
-        public unsafe static void Finalize(void* data)
+        public static void Finalize(IntPtr data)
         {
-            Measure measure = (Measure)GCHandle.FromIntPtr((IntPtr)data).Target;
+            Measure measure = (Measure)GCHandle.FromIntPtr(data).Target;
             measure.Dispose();
-            GCHandle.FromIntPtr((IntPtr)data).Free();
+            GCHandle.FromIntPtr(data).Free();
         }
 
         [DllExport]
-        public unsafe static void Reload(void* data, void* rm, double* maxValue)
+        public static void Reload(IntPtr data, IntPtr rm, ref double maxValue)
         {
-            Measure measure = (Measure)GCHandle.FromIntPtr((IntPtr)data).Target;
-            measure.Reload(new Rainmeter.API((IntPtr)rm), ref *maxValue);
+            Measure measure = (Measure)GCHandle.FromIntPtr(data).Target;
+            measure.Reload(new Rainmeter.API(rm), ref maxValue);
         }
 
         [DllExport]
-        public unsafe static double Update(void* data)
+        public static double Update(IntPtr data)
         {
-            Measure measure = (Measure)GCHandle.FromIntPtr((IntPtr)data).Target;
+            Measure measure = (Measure)GCHandle.FromIntPtr(data).Target;
             return measure.Update();
         }
     }

@@ -1,4 +1,8 @@
-﻿using System;
+﻿// Uncomment these only if you want to export GetString() or ExecuteBang().
+//#define DLLEXPORT_GETSTRING
+//#define DLLEXPORT_EXECUTEBANG
+
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Rainmeter;
@@ -27,57 +31,82 @@ namespace PluginEmpty
         {
             return 0.0;
         }
-
-        //internal string GetString()
-        //{
-        //    return "";
-        //}
-
-        //internal void ExecuteBang(string args)
-        //{
-        //}
+        
+#if DLLEXPORT_GETSTRING
+        internal string GetString()
+        {
+            return "";
+        }
+#endif
+        
+#if DLLEXPORT_EXECUTEBANG
+        internal void ExecuteBang(string args)
+        {
+        }
+#endif
     }
 
     public static class Plugin
     {
+#if DLLEXPORT_GETSTRING
+        static IntPtr StringBuffer = IntPtr.Zero;
+#endif
+
         [DllExport]
-        public unsafe static void Initialize(void** data, void* rm)
+        public static void Initialize(ref IntPtr data, IntPtr rm)
         {
-            *data = (void*)GCHandle.ToIntPtr(GCHandle.Alloc(new Measure()));
+            data = GCHandle.ToIntPtr(GCHandle.Alloc(new Measure()));
         }
 
         [DllExport]
-        public unsafe static void Finalize(void* data)
+        public static void Finalize(IntPtr data)
         {
             GCHandle.FromIntPtr((IntPtr)data).Free();
         }
 
         [DllExport]
-        public unsafe static void Reload(void* data, void* rm, double* maxValue)
+        public static void Reload(IntPtr data, IntPtr rm, ref double maxValue)
         {
             Measure measure = (Measure)GCHandle.FromIntPtr((IntPtr)data).Target;
-            measure.Reload(new Rainmeter.API((IntPtr)rm), ref *maxValue);
+            measure.Reload(new Rainmeter.API((IntPtr)rm), ref maxValue);
         }
 
         [DllExport]
-        public unsafe static double Update(void* data)
+        public static double Update(IntPtr data)
         {
             Measure measure = (Measure)GCHandle.FromIntPtr((IntPtr)data).Target;
             return measure.Update();
         }
+        
+#if DLLEXPORT_GETSTRING
+        [DllExport]
+        public static IntPtr GetString(IntPtr data)
+        {
+            Measure measure = (Measure)GCHandle.FromIntPtr(data).Target;
+            if (StringBuffer != IntPtr.Zero)
+            {
+                Marshal.FreeHGlobal(StringBuffer);
+                StringBuffer = IntPtr.Zero;
+            }
 
-        //[DllExport]
-        //public unsafe static char* GetString(void* data)
-        //{
-        //    Measure measure = (Measure)GCHandle.FromIntPtr((IntPtr)data).Target;
-        //    fixed (char* s = measure.GetString()) return s;
-        //}
+            string stringValue = measure.GetString();
+            if (stringValue != null)
+            {
+                StringBuffer = Marshal.StringToHGlobalUni(stringValue);
+            }
 
-        //[DllExport]
-        //public unsafe static void ExecuteBang(void* data, char* args)
-        //{
-        //    Measure measure = (Measure)GCHandle.FromIntPtr((IntPtr)data).Target;
-        //    measure.ExecuteBang(new string(args));
-        //}
+            return StringBuffer;
+        }
+#endif
+
+
+#if DLLEXPORT_EXECUTEBANG
+        [DllExport]
+        public unsafe static void ExecuteBang(IntPtr data, IntPtr args)
+        {
+            Measure measure = (Measure)GCHandle.FromIntPtr((IntPtr)data).Target;
+            measure.ExecuteBang(Marshal.PtrToStringUni(args));
+        }
+#endif
     }
 }
