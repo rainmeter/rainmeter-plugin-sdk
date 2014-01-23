@@ -161,41 +161,37 @@ namespace PluginSystemVersion
 
     public static class Plugin
     {
-        internal static Dictionary<uint, Measure> Measures = new Dictionary<uint, Measure>();
-
         [DllExport]
         public unsafe static void Initialize(void** data, void* rm)
         {
-            uint id = (uint)((void*)*data);
-            Measures.Add(id, new Measure());
+            *data = (void*)GCHandle.ToIntPtr(GCHandle.Alloc(new Measure()));
         }
 
         [DllExport]
         public unsafe static void Finalize(void* data)
         {
-            uint id = (uint)data;
-            Measures.Remove(id);
+            GCHandle.FromIntPtr((IntPtr)data).Free();
         }
 
         [DllExport]
         public unsafe static void Reload(void* data, void* rm, double* maxValue)
         {
-            uint id = (uint)data;
-            Measures[id].Reload(new Rainmeter.API((IntPtr)rm), ref *maxValue);
+            Measure measure = (Measure)GCHandle.FromIntPtr((IntPtr)data).Target;
+            measure.Reload(new Rainmeter.API((IntPtr)rm), ref *maxValue);
         }
 
         [DllExport]
         public unsafe static double Update(void* data)
         {
-            uint id = (uint)data;
-            return Measures[id].Update();
+            Measure measure = (Measure)GCHandle.FromIntPtr((IntPtr)data).Target;
+            return measure.Update();
         }
 
         [DllExport]
         public unsafe static char* GetString(void* data)
         {
-            uint id = (uint)data;
-            fixed (char* s = Measures[id].GetString()) return s;
+            Measure measure = (Measure)GCHandle.FromIntPtr((IntPtr)data).Target;
+            fixed (char* s = measure.GetString()) return s;
         }
     }
 }

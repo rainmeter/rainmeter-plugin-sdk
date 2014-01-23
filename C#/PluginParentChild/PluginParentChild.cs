@@ -83,6 +83,10 @@ namespace PluginParentChild
 
         internal MeasureType Type = MeasureType.A;
 
+        internal virtual void Dispose()
+        {
+        }
+
         internal virtual void Reload(Rainmeter.API api, ref double maxValue)
         {
             string type = api.ReadString("Type", "");
@@ -114,12 +118,25 @@ namespace PluginParentChild
 
     internal class ParentMeasure : Measure
     {
+        // This list of all parent measures is used by the child measures to find their parent.
+        internal static List<ParentMeasure> ParentMeasures = new List<ParentMeasure>();
+
         internal string Name;
         internal IntPtr Skin;
 
         internal int ValueA;
         internal int ValueB;
         internal int ValueC;
+
+        internal ParentMeasure()
+        {
+            ParentMeasures.Add(this);
+        }
+
+        internal override void Dispose()
+        {
+            ParentMeasures.Remove(this);
+        }
 
         internal override void Reload(Rainmeter.API api, ref double maxValue)
         {
@@ -158,8 +175,7 @@ namespace PluginParentChild
 
     internal class ChildMeasure : Measure
     {
-        private bool HasParent = false;
-        private uint ParentID;
+        private ParentMeasure ParentMeasure = null;
 
         internal override void Reload(Rainmeter.API api, ref double maxValue)
         {
@@ -168,33 +184,27 @@ namespace PluginParentChild
             string parentName = api.ReadString("ParentName", "");
             IntPtr skin = api.GetSkin();
 
-            // Find parent using name AND the skin handle to be sure that it's the right one
-            RuntimeTypeHandle parentType = typeof(ParentMeasure).TypeHandle;
-            foreach (KeyValuePair<uint, Measure> pair in Plugin.Measures)
+            // Find parent using name AND the skin handle to be sure that it's the right one.
+            ParentMeasure = null;
+            foreach (ParentMeasure parentMeasure in ParentMeasure.ParentMeasures)
             {
-                if (System.Type.GetTypeHandle(pair.Value).Equals(parentType))
+                if (parentMeasure.Skin.Equals(skin) && parentMeasure.Name.Equals(parentName))
                 {
-                    ParentMeasure parentMeasure = (ParentMeasure)pair.Value;
-                    if (parentMeasure.Name.Equals(parentName) &&
-                        parentMeasure.Skin.Equals(skin))
-                    {
-                        HasParent = true;
-                        ParentID = pair.Key;
-                        return;
-                    }
+                    ParentMeasure = parentMeasure;
                 }
             }
 
-            HasParent = false;
-            API.Log(API.LogType.Error, "ParentChild.dll: ParentName=" + parentName + " not valid");
+            if (ParentMeasure == null)
+            {
+                API.Log(API.LogType.Error, "ParentChild.dll: ParentName=" + parentName + " not valid");
+            }
         }
 
         internal override double Update()
         {
-            if (HasParent)
+            if (ParentMeasure != null)
             {
-                ParentMeasure parent = (ParentMeasure)Plugin.Measures[ParentID];
-                return parent.GetValue(Type);
+                return ParentMeasure.GetValue(Type);
             }
 
             return 0.0;
@@ -203,44 +213,45 @@ namespace PluginParentChild
 
     public static class Plugin
     {
-        internal static Dictionary<uint, Measure> Measures = new Dictionary<uint, Measure>();
-
         [DllExport]
         public unsafe static void Initialize(void** data, void* rm)
         {
-            uint id = (uint)((void*)*data);
             Rainmeter.API api = new Rainmeter.API((IntPtr)rm);
 
             string parent = api.ReadString("ParentName", "");
+            Measure measure;
             if (String.IsNullOrEmpty(parent))
             {
-                Measures.Add(id, new ParentMeasure());
+                measure = new ParentMeasure();
             }
             else
             {
-                Measures.Add(id, new ChildMeasure());
+                measure = new ChildMeasure();
             }
+
+            *data = (void*)GCHandle.ToIntPtr(GCHandle.Alloc(measure));
         }
 
         [DllExport]
         public unsafe static void Finalize(void* data)
         {
-            uint id = (uint)data;
-            Measures.Remove(id);
+            Measure measure = (Measure)GCHandle.FromIntPtr((IntPtr)data).Target;
+            measure.Dispose();
+            GCHandle.FromIntPtr((IntPtr)data).Free();
         }
 
         [DllExport]
         public unsafe static void Reload(void* data, void* rm, double* maxValue)
         {
-            uint id = (uint)data;
-            Measures[id].Reload(new Rainmeter.API((IntPtr)rm), ref *maxValue);
+            Measure measure = (Measure)GCHandle.FromIntPtr((IntPtr)data).Target;
+            measure.Reload(new Rainmeter.API((IntPtr)rm), ref *maxValue);
         }
 
         [DllExport]
         public unsafe static double Update(void* data)
         {
-            uint id = (uint)data;
-            return Measures[id].Update();
+            Measure measure = (Measure)GCHandle.FromIntPtr((IntPtr)data).Target;
+            return measure.Update();
         }
     }
 }
