@@ -61,7 +61,7 @@ namespace PluginEmpty
         [DllExport]
         public static void Finalize(IntPtr data)
         {
-            GCHandle.FromIntPtr((IntPtr)data).Free();
+            GCHandle.FromIntPtr(data).Free();
             
 #if DLLEXPORT_GETSTRING
             if (StringBuffer != IntPtr.Zero)
@@ -75,14 +75,14 @@ namespace PluginEmpty
         [DllExport]
         public static void Reload(IntPtr data, IntPtr rm, ref double maxValue)
         {
-            Measure measure = (Measure)GCHandle.FromIntPtr((IntPtr)data).Target;
-            measure.Reload(new Rainmeter.API((IntPtr)rm), ref maxValue);
+            Measure measure = (Measure)GCHandle.FromIntPtr(data).Target;
+            measure.Reload(new Rainmeter.API(rm), ref maxValue);
         }
 
         [DllExport]
         public static double Update(IntPtr data)
         {
-            Measure measure = (Measure)GCHandle.FromIntPtr((IntPtr)data).Target;
+            Measure measure = (Measure)GCHandle.FromIntPtr(data).Target;
             return measure.Update();
         }
         
@@ -109,9 +109,9 @@ namespace PluginEmpty
 
 #if DLLEXPORT_EXECUTEBANG
         [DllExport]
-        public unsafe static void ExecuteBang(IntPtr data, IntPtr args)
+        public static void ExecuteBang(IntPtr data, IntPtr args)
         {
-            Measure measure = (Measure)GCHandle.FromIntPtr((IntPtr)data).Target;
+            Measure measure = (Measure)GCHandle.FromIntPtr(data).Target;
             measure.ExecuteBang(Marshal.PtrToStringUni(args));
         }
 #endif
