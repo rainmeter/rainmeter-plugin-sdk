@@ -62,6 +62,14 @@ namespace PluginEmpty
         public static void Finalize(IntPtr data)
         {
             GCHandle.FromIntPtr((IntPtr)data).Free();
+            
+#if DLLEXPORT_GETSTRING
+            if (StringBuffer != IntPtr.Zero)
+            {
+                Marshal.FreeHGlobal(StringBuffer);
+                StringBuffer = IntPtr.Zero;
+            }
+#endif
         }
 
         [DllExport]
@@ -98,7 +106,6 @@ namespace PluginEmpty
             return StringBuffer;
         }
 #endif
-
 
 #if DLLEXPORT_EXECUTEBANG
         [DllExport]
