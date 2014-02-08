@@ -6,12 +6,6 @@ The Rainmeter plugin software development kit contains the necessary tools and e
 *   Use svn (`svn checkout https://github.com/rainmeter/rainmeter-plugin-sdk/trunk rainmeter-plugin-sdk`)
 *   Download the [current snapshot](https://github.com/rainmeter/rainmeter-plugin-sdk/zipball/master) as a .zip archive.
 
-To install the tools required to build the plugins, follow the [instructions](https://raw.github.com/rainmeter/rainmeter/master/Build/Instructions.txt).
+The SDK can be built using any version of Visual Studio 2013. If you don't already have VS2013, you can download the free "Visual Studio Express 2013 for Windows Desktop" version [here](http://www.visualstudio.com/downloads/download-visual-studio-vs).
 
 **Documentation:** The documentation is available at the [wiki](https://github.com/rainmeter/rainmeter-plugin-sdk/wiki/_pages).
-
-_**Note:**_ To build 64bit C/C++ plugins with Visual C++ Express, right-click on the plugin project(s) -> `Properties` -> `Configuration Properties` -> `General`, and change the `Platform Toolset` field to `Windows7.1SDK` for the Release\x64 and Debug\x64 configurations. With Visual Studio, no changes are necessary.
-
-### Old plugin API
-
-The SDK above uses the "new" plugin API introduced with Rainmeter 2.3 beta and above. The new API, among many other improvements and features, adds support for DynamicVariables. In addition, the new C# API fixes several issues with the old C# API. If your C/C++ plugin is using the old API, we recommend that you consider upgrading to the new API. If your C# plugin is using the old API, we recommend that you upgrade to the new API <b>as soon as possible</b>.</p>
