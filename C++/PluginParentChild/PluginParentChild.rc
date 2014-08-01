@@ -9,7 +9,7 @@
 
 VS_VERSION_INFO VERSIONINFO
  FILEVERSION 1,0,0,0
- PRODUCTVERSION 2,5,0,1842
+ PRODUCTVERSION 3,0,2,2161
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS VS_FF_DEBUG
@@ -25,12 +25,14 @@ BEGIN
         BLOCK "040904E4"
         BEGIN
             VALUE "FileVersion", "1.0.0.0"
-            VALUE "LegalCopyright", "© 2012 - Birunthan Mohanathas"
+            VALUE "LegalCopyright", "© 2014 - Birunthan Mohanathas"
+			
+			// Don't change the entries below!
             VALUE "ProductName", "Rainmeter"
 #ifdef _WIN64
-            VALUE "ProductVersion", "2.5.0.1842 (64-bit)"
+            VALUE "ProductVersion", "3.0.2.2161 (64-bit)"
 #else
-            VALUE "ProductVersion", "2.5.0.1842 (32-bit)"
+            VALUE "ProductVersion", "3.0.2.2161 (32-bit)"
 #endif //_WIN64
         END
     END

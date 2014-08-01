@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+# Visual Studio 2013
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginEmpty", "PluginEmpty\PluginEmpty.csproj", "{D31F73ED-3978-44FA-B599-49584BA30D3A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginParentChild", "PluginParentChild\PluginParentChild.csproj", "{CA8F01AC-9582-4820-AA24-919EC747536E}"

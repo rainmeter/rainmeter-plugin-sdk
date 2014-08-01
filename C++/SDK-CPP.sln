@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+# Visual Studio 2013
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PluginEmpty", "PluginEmpty\PluginEmpty.vcxproj", "{64FDEE97-6B7E-40E5-A489-ECA322825BC8}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PluginSystemVersion", "PluginSystemVersion\PluginSystemVersion.vcxproj", "{7FB00A1C-F0C0-49FD-A15C-392F69FDF645}"
