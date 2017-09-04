@@ -58,7 +58,7 @@ namespace Rainmeter
         private extern static int RmLog(IntPtr rm, LogType type, string message);
 
         [DllImport("Rainmeter.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-        private extern static int RmLogF(IntPtr rm, LogType type, string message);
+        private extern static int RmLogF(IntPtr rm, LogType type, string format, params string[] message);
 
         private enum RmGetType
         {
@@ -137,9 +137,9 @@ namespace Rainmeter
             RmLog(rm, type, message);
         }
 
-        public static void LogF(IntPtr rm, LogType type, string message)
+        public static void LogF(IntPtr rm, LogType type, string format, params string[] message)
         {
-            RmLogF(rm, type, message);
+            RmLogF(rm, type, format, message);
         }
     }
 
