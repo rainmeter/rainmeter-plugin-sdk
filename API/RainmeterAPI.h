@@ -52,11 +52,11 @@ LIBRARY_EXPORT LPCWSTR __stdcall RmReadString(void* rm, LPCWSTR option, LPCWSTR 
 #endif // __cplusplus
 
 /// <summary>
-/// Returns a string representation of an option.
+/// Parses an option remvoing any formulas. Same as RmReadDouble, use that instead
 /// </summary>
 /// <param name="rm">Pointer to the plugin measure</param>
-/// <param name="option">Option name to read string from</param>
-/// <param name="defValue">Default value for option (returned if option is not found)</param>
+/// <param name="option">Option name to read double from</param>
+/// <param name="defValue">Default return value (returned if option is not found, option is not an number, or if formula could not be parsed)</param>
 LIBRARY_EXPORT double __stdcall RmReadFormula(void* rm, LPCWSTR option, double defValue);
 
 /// <summary>
@@ -67,7 +67,7 @@ LIBRARY_EXPORT double __stdcall RmReadFormula(void* rm, LPCWSTR option, double d
 LIBRARY_EXPORT LPCWSTR __stdcall RmReplaceVariables(void* rm, LPCWSTR str);
 
 /// <summary>
-/// Parse a relative path from the root of the skin
+/// Parse a relative path from the root of the skin. Use RmReadPath instead.
 /// </summary>
 /// <param name="rm">Pointer to the plugin measure</param>
 /// <param name="relativePath">Realative path to parse</param>
@@ -85,7 +85,7 @@ LIBRARY_EXPORT void __stdcall RmExecute(void* skin, LPCWSTR command);
 /// </summary>
 /// <param name="rm">Pointer to the plugin measure</param>
 /// <param name="type">RmGetType you would like to get</param>
-LIBRARY_EXPORT void* __stdcall RmGet(void* rm, RmGetType type);
+LIBRARY_EXPORT void* __stdcall RmGet(void* rm, int type);
 
 enum RmGetType
 {
