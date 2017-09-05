@@ -97,7 +97,7 @@ enum RmGetType
 };
 
 /// <summary>
-/// Sends a message to the Rainmeter log, if no plugin measure is given the source will be blank.
+/// Sends a message to the Rainmeter log with source
 /// </summary>
 /// <param name="rm">Pointer to the plugin measure</param>
 /// <param name="level">Log level (LOG_ERROR, LOG_WARNING, LOG_NOTICE, or LOG_DEBUG). LOG_DEBUG messages are logged only when Rainmeter is in debug mod.</param>
@@ -105,7 +105,7 @@ enum RmGetType
 LIBRARY_EXPORT void __stdcall RmLog(void* rm, int level, LPCWSTR message);
 
 /// <summary>
-/// Sends a message to the Rainmeter log, if no plugin measure is given the source will be blank.
+/// Sends a message to the Rainmeter log, follows similar formating to printf
 /// </summary>
 /// <param name="rm">Pointer to the plugin measure</param>
 /// <param name="level">Log level (LOG_ERROR, LOG_WARNING, LOG_NOTICE, or LOG_DEBUG). LOG_DEBUG messages are logged only when Rainmeter is in debug mod.</param>
@@ -202,7 +202,7 @@ __inline HWND RmGetSkinWindow(void* rm)
 }
 
 /// <summary>
-/// Sends a message to the Rainmeter log, if no plugin measure is given the source will be blank.
+/// Sends a message to the Rainmeter log. Calls without plugin measure should be avoided as no source will be given
 /// </summary>
 /// <param name="level">Log level (LOG_ERROR, LOG_WARNING, LOG_NOTICE, or LOG_DEBUG). LOG_DEBUG messages are logged only when Rainmeter is in debug mod.</param>
 /// <param name="message">Message to be logged</param>
