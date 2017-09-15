@@ -1,6 +1,8 @@
 ﻿// Uncomment these only if you want to export GetString() or ExecuteBang().
 //#define DLLEXPORT_GETSTRING
 //#define DLLEXPORT_EXECUTEBANG
+// Uncomment only if you want to expose functions to use as section variables
+//#define DLLEXPORT_SECTIONVARIABLES
 
 using System;
 using System.Collections.Generic;
@@ -44,6 +46,18 @@ namespace PluginEmpty
         {
         }
 #endif
+#if DLLEXPORT_SOMEFUNCTION
+        internal bool SomeFunction(IntPtr data, out string retValue, int argc, string[] argv)
+        {
+            retValue = "";
+            return true;
+        }
+        internal bool SomeFunction2(IntPtr data, out string retValue, int argc, string[] argv)
+        {
+            retValue = "";
+            return true;
+        }
+#endif
     }
 
     public static class Plugin
@@ -85,7 +99,7 @@ namespace PluginEmpty
             Measure measure = (Measure)GCHandle.FromIntPtr(data).Target;
             return measure.Update();
         }
-        
+
 #if DLLEXPORT_GETSTRING
         [DllExport]
         public static IntPtr GetString(IntPtr data)
@@ -113,6 +127,20 @@ namespace PluginEmpty
         {
             Measure measure = (Measure)GCHandle.FromIntPtr(data).Target;
             measure.ExecuteBang(Marshal.PtrToStringUni(args));
+        }
+//#endif
+//#if DLLEXPORT_SECTIONVARIABLES
+        [DllExport]
+        public static bool SomeFunction(IntPtr data, [MarshalAs(UnmanagedType.LPWStr)] out string retValue, int argc,
+            [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPWStr, SizeParamIndex = 2)] string[] argv)
+        {
+            return SomeFunction(data, out retValue, argc, argv);
+        }
+        [DllExport]
+        public static bool SomeFunction2(IntPtr data, [MarshalAs(UnmanagedType.LPWStr)] out string retValue, int argc,
+            [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPWStr, SizeParamIndex = 2)] string[] argv)
+        {
+            return SomeFunction2(data, out retValue, argc, argv);
         }
 #endif
     }
