@@ -42,7 +42,7 @@ PLUGIN_EXPORT double Update(void* data)
 //	Measure* measure = (Measure*)data;
 //}
 
-//PLUGIN_EXPORT LPCWSTR (void* data, const int argc, const WCHAR* argv[] argv)
+//PLUGIN_EXPORT LPCWSTR (void* data, const int argc, const WCHAR* argv[])
 //{
 //	Measure* measure = (Measure*)data;
 //	return nullptr;
