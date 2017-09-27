@@ -1,9 +1,4 @@
-﻿// Uncomment these only if you want to export GetString(), ExecuteBang(), or plan to add support for section variables.
-//#define DLLEXPORT_GETSTRING
-//#define DLLEXPORT_EXECUTEBANG
-//#define DLLEXPORT_SECTIONVARIABLES
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Rainmeter;
@@ -24,10 +19,6 @@ namespace PluginEmpty
         {
             return (Measure)GCHandle.FromIntPtr(data).Target;
         }
-
-#if DLLEXPORT_GETSTRING
-        public String StringBuffer;
-#endif
     }
 
     public class Plugin
@@ -59,33 +50,27 @@ namespace PluginEmpty
             return 0.0;
         }
 
-#if DLLEXPORT_GETSTRING
-        [DllExport]
-        public static IntPtr GetString(IntPtr data)
-        {
-            Measure measure = (Measure)data;
+        //[DllExport]
+        //public static IntPtr GetString(IntPtr data)
+        //{
+        //    Measure measure = (Measure)data;
+        //
+        //    return Marshal.StringToHGlobalUni(""); //returning IntPtr.Zero will result in it not being used
+        //}
 
-            return Marshal.StringToHGlobalUni(""); //IntPtr.Zero will result in it not being used
-        }
-#endif
+        //[DllExport]
+        //public static void ExecuteBang(IntPtr data, [MarshalAs(UnmanagedType.LPWStr)]String args)
+        //{
+        //    Measure measure = (Measure)data;
+        //}
 
-#if DLLEXPORT_EXECUTEBANG
-        [DllExport]
-        public static void ExecuteBang(IntPtr data, [MarshalAs(UnmanagedType.LPWStr)]String args)
-        {
-            Measure measure = (Measure)data;
-        }
-#endif
-
-#if DLLEXPORT_SECTIONVARIABLES
-        [DllExport]
-        public static IntPtr (IntPtr data, int argc,
-            [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPWStr, SizeParamIndex = 2)] string[] argv)
-        {
-            Measure measure = (Measure)data;
-
-            return Marshal.StringToHGlobalUni(""); //IntPtr.Zero will result in it not being used
-        }
-#endif
+        //[DllExport]
+        //public static IntPtr (IntPtr data, int argc,
+        //    [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPWStr, SizeParamIndex = 2)] string[] argv)
+        //{
+        //    Measure measure = (Measure)data;
+        //
+        //    return Marshal.StringToHGlobalUni(""); //returning IntPtr.Zero will result in it not being used
+        //}
     }
 }
