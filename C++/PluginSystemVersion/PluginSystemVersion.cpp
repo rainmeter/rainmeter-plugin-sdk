@@ -121,7 +121,7 @@ PLUGIN_EXPORT void Reload(void* data, void* rm, double* maxValue)
 	}
 	else
 	{
-		RmLog(LOG_ERROR, L"SystemVersion.dll: Invalid Type=");
+		RmLog(rm, LOG_ERROR, L"SystemVersion.dll: Invalid Type=");
 	}
 }
 
