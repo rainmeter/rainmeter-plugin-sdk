@@ -82,10 +82,10 @@ PLUGIN_EXPORT void Reload(void* data, void* rm, double* maxValue)
 	Measure* measure = (Measure*)data;
 
 	//Get starting value if one is defined
-	LPCWSTR startValue = RmReadString(rm, L"StartingValue", NULL);
+	int startValue = RmReadInt(rm, L"StartingValue", -1);
 
 	//If string from option was null read from file
-	if (!startValue || !startValue[0])
+	if (startValue == -1)
 	{
 		LPTSTR outString = new TCHAR[MAXSIZE];
 
@@ -95,10 +95,10 @@ PLUGIN_EXPORT void Reload(void* data, void* rm, double* maxValue)
 	}
 	else
 	{
-		measure->myCounter = _wtoi(startValue);
+		measure->myCounter = startValue;
 	}
-	//If store data starts with 1 then save data when measure is unloaded
-	measure->storeData = RmReadString(rm, L"StoreData", L"0")[0] == L'1' ? true : false;
+	//If store data is 1 then save data when measure is unloaded
+	measure->storeData = RmReadInt(rm, L"StoreData", 0) == 1 ? true : false;
 }
 
 PLUGIN_EXPORT double Update(void* data)
