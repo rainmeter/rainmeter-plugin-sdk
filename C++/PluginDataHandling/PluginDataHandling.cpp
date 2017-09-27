@@ -68,7 +68,7 @@ struct Measure
 };
 
 LPCWSTR PluginName = L"DataHandling"; //Always match this to your plugin name
-LPCWSTR KeyName = L"StoredCount";
+LPCWSTR KeyName = L"StoredCount"; //You can have multiple keys for your plugin that you store different info under
 const int MAXSIZE = 256;
 
 PLUGIN_EXPORT void Initialize(void** data, void* rm)
