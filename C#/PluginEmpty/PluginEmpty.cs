@@ -66,7 +66,7 @@ namespace PluginEmpty
 
         //[DllExport]
         //public static IntPtr (IntPtr data, int argc,
-        //    [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPWStr, SizeParamIndex = 2)] string[] argv)
+        //    [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPWStr, SizeParamIndex = 1)] string[] argv)
         //{
         //    Measure measure = (Measure)data;
         //
