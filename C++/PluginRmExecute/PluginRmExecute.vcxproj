@@ -129,8 +129,8 @@
       <PreprocessorDefinitions>_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
     <PostBuildEvent>
-      <Command>taskkill /f /fi "imagename eq Rainmeter.exe"
-xcopy  "$(TargetDir)$(TargetFileName)" "%appdata%\Rainmeter\Plugins" /Y</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

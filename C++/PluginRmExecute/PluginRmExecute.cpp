@@ -94,8 +94,9 @@ PLUGIN_EXPORT void Initialize(void** data, void* rm)
 PLUGIN_EXPORT void Reload(void* data, void* rm, double* maxValue)
 {
 	Measure* measure = (Measure*)data;
-	measure->updateRate = RmReadInt(rm, L"Timer", 1);
-	//We dont have to replace measures here as they will be replaced during RmExecute.
+	measure->updateRate = RmReadInt(rm, L"Timer", 1); 
+	//We dont have to replace measures here as they will be replaced during RmExecute so we can pass false. 
+    //Note though that doing that measures will always then have their current info in update but variables will not. See the commented out code below to have both always act like DynamicVariables=1
 	measure->myCommand = RmReadString(rm, L"OnTimer", L"", false);
 }
 
