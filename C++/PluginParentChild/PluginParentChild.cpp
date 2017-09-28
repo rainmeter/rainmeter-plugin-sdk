@@ -133,7 +133,7 @@ PLUGIN_EXPORT void Initialize(void** data, void* rm)
 			}
 		}
 
-		RmLog(LOG_ERROR, L"ParentChild.dll: Invalid ParentName=");
+		RmLog(rm, LOG_ERROR, L"ParentChild.dll: Invalid ParentName=");
 	}
 }
 
@@ -163,7 +163,7 @@ PLUGIN_EXPORT void Reload(void* data, void* rm, double* maxValue)
 	}
 	else
 	{
-		RmLog(LOG_ERROR, L"ParentChild.dll: Invalid Type=");
+		RmLog(rm, LOG_ERROR, L"ParentChild.dll: Invalid Type=");
 	}
 
 	// Read parent specific options

@@ -1,119 +1,76 @@
-﻿// Uncomment these only if you want to export GetString() or ExecuteBang().
-//#define DLLEXPORT_GETSTRING
-//#define DLLEXPORT_EXECUTEBANG
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Rainmeter;
 
 // Overview: This is a blank canvas on which to build your plugin.
 
-// Note: Measure.GetString, Plugin.GetString, Measure.ExecuteBang, and
-// Plugin.ExecuteBang have been commented out. If you need GetString
-// and/or ExecuteBang and you have read what they are used for from the
-// SDK docs, uncomment the function(s). Otherwise leave them commented out
-// (or get rid of them)!
+// Note: GetString, ExecuteBang and an unnamed function for use as a section variable
+// have been commented out. If you need GetString, ExecuteBang, and/or section variables 
+// and you have read what they are used for from the SDK docs, uncomment the function(s)
+// and/or add a function name to use for the section variable function(s). 
+// Otherwise leave them commented out (or get rid of them)!
 
 namespace PluginEmpty
 {
-    internal class Measure
+    class Measure
     {
-        internal Measure()
+        static public implicit operator Measure(IntPtr data)
         {
+            return (Measure)GCHandle.FromIntPtr(data).Target;
         }
-
-        internal void Reload(Rainmeter.API api, ref double maxValue)
-        {
-        }
-
-        internal double Update()
-        {
-            return 0.0;
-        }
-        
-#if DLLEXPORT_GETSTRING
-        internal string GetString()
-        {
-            return "";
-        }
-#endif
-        
-#if DLLEXPORT_EXECUTEBANG
-        internal void ExecuteBang(string args)
-        {
-        }
-#endif
     }
 
-    public static class Plugin
+    public class Plugin
     {
-#if DLLEXPORT_GETSTRING
-        static IntPtr StringBuffer = IntPtr.Zero;
-#endif
-
         [DllExport]
         public static void Initialize(ref IntPtr data, IntPtr rm)
         {
             data = GCHandle.ToIntPtr(GCHandle.Alloc(new Measure()));
+            Rainmeter.API api = (Rainmeter.API)rm;
         }
 
         [DllExport]
         public static void Finalize(IntPtr data)
         {
             GCHandle.FromIntPtr(data).Free();
-            
-#if DLLEXPORT_GETSTRING
-            if (StringBuffer != IntPtr.Zero)
-            {
-                Marshal.FreeHGlobal(StringBuffer);
-                StringBuffer = IntPtr.Zero;
-            }
-#endif
         }
 
         [DllExport]
         public static void Reload(IntPtr data, IntPtr rm, ref double maxValue)
         {
-            Measure measure = (Measure)GCHandle.FromIntPtr(data).Target;
-            measure.Reload(new Rainmeter.API(rm), ref maxValue);
+            Measure measure = (Measure)data;
         }
 
         [DllExport]
         public static double Update(IntPtr data)
         {
-            Measure measure = (Measure)GCHandle.FromIntPtr(data).Target;
-            return measure.Update();
-        }
-        
-#if DLLEXPORT_GETSTRING
-        [DllExport]
-        public static IntPtr GetString(IntPtr data)
-        {
-            Measure measure = (Measure)GCHandle.FromIntPtr(data).Target;
-            if (StringBuffer != IntPtr.Zero)
-            {
-                Marshal.FreeHGlobal(StringBuffer);
-                StringBuffer = IntPtr.Zero;
-            }
+            Measure measure = (Measure)data;
 
-            string stringValue = measure.GetString();
-            if (stringValue != null)
-            {
-                StringBuffer = Marshal.StringToHGlobalUni(stringValue);
-            }
-
-            return StringBuffer;
+            return 0.0;
         }
-#endif
 
-#if DLLEXPORT_EXECUTEBANG
-        [DllExport]
-        public static void ExecuteBang(IntPtr data, IntPtr args)
-        {
-            Measure measure = (Measure)GCHandle.FromIntPtr(data).Target;
-            measure.ExecuteBang(Marshal.PtrToStringUni(args));
-        }
-#endif
+        //[DllExport]
+        //public static IntPtr GetString(IntPtr data)
+        //{
+        //    Measure measure = (Measure)data;
+        //
+        //    return Marshal.StringToHGlobalUni(""); //returning IntPtr.Zero will result in it not being used
+        //}
+
+        //[DllExport]
+        //public static void ExecuteBang(IntPtr data, [MarshalAs(UnmanagedType.LPWStr)]String args)
+        //{
+        //    Measure measure = (Measure)data;
+        //}
+
+        //[DllExport]
+        //public static IntPtr (IntPtr data, int argc,
+        //    [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPWStr, SizeParamIndex = 1)] string[] argv)
+        //{
+        //    Measure measure = (Measure)data;
+        //
+        //    return Marshal.StringToHGlobalUni(""); //returning IntPtr.Zero will result in it not being used
+        //}
     }
 }

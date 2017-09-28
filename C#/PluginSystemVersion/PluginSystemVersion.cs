@@ -96,9 +96,9 @@ namespace PluginSystemVersion
         {
         }
 
-        internal void Reload(Rainmeter.API rm, ref double maxValue)
+        internal void Reload(Rainmeter.API api, ref double maxValue)
         {
-            string type = rm.ReadString("Type", "");
+            string type = api.ReadString("Type", "");
             switch (type.ToLowerInvariant())
             {
                 case "major":
@@ -118,7 +118,7 @@ namespace PluginSystemVersion
                     break;
 
                 default:
-                    API.Log(API.LogType.Error, "SystemVersion.dll: Type=" + type + " not valid");
+                    api.Log(API.LogType.Error, "SystemVersion.dll: Type=" + type + " not valid");
                     break;
             }
         }

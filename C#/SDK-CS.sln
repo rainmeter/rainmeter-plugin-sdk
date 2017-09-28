@@ -1,11 +1,19 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2013
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.10
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginEmpty", "PluginEmpty\PluginEmpty.csproj", "{D31F73ED-3978-44FA-B599-49584BA30D3A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginParentChild", "PluginParentChild\PluginParentChild.csproj", "{CA8F01AC-9582-4820-AA24-919EC747536E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginSystemVersion", "PluginSystemVersion\PluginSystemVersion.csproj", "{F43D0210-4CED-49B0-93C4-C694EFB44282}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginDataHandling", "PluginDataHandling\PluginDataHandling.csproj", "{29C1A579-28E6-4D9C-BA9C-BECF4EFEB759}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginRmExecute", "PluginRmExecute\PluginRmExecute.csproj", "{4AA459BF-425E-40F5-AE31-5EE97304C538}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginSectionVariables", "PluginSectionVariables\PluginSectionVariables.csproj", "{4F74D778-91E1-4CB6-974A-8B0C2D5B9C09}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,8 +47,35 @@ Global
 		{F43D0210-4CED-49B0-93C4-C694EFB44282}.Release|x64.Build.0 = Release|x64
 		{F43D0210-4CED-49B0-93C4-C694EFB44282}.Release|x86.ActiveCfg = Release|x86
 		{F43D0210-4CED-49B0-93C4-C694EFB44282}.Release|x86.Build.0 = Release|x86
+		{29C1A579-28E6-4D9C-BA9C-BECF4EFEB759}.Debug|x64.ActiveCfg = Debug|x64
+		{29C1A579-28E6-4D9C-BA9C-BECF4EFEB759}.Debug|x64.Build.0 = Debug|x64
+		{29C1A579-28E6-4D9C-BA9C-BECF4EFEB759}.Debug|x86.ActiveCfg = Debug|x86
+		{29C1A579-28E6-4D9C-BA9C-BECF4EFEB759}.Debug|x86.Build.0 = Debug|x86
+		{29C1A579-28E6-4D9C-BA9C-BECF4EFEB759}.Release|x64.ActiveCfg = Release|x64
+		{29C1A579-28E6-4D9C-BA9C-BECF4EFEB759}.Release|x64.Build.0 = Release|x64
+		{29C1A579-28E6-4D9C-BA9C-BECF4EFEB759}.Release|x86.ActiveCfg = Release|x86
+		{29C1A579-28E6-4D9C-BA9C-BECF4EFEB759}.Release|x86.Build.0 = Release|x86
+		{4AA459BF-425E-40F5-AE31-5EE97304C538}.Debug|x64.ActiveCfg = Debug|x64
+		{4AA459BF-425E-40F5-AE31-5EE97304C538}.Debug|x64.Build.0 = Debug|x64
+		{4AA459BF-425E-40F5-AE31-5EE97304C538}.Debug|x86.ActiveCfg = Debug|x86
+		{4AA459BF-425E-40F5-AE31-5EE97304C538}.Debug|x86.Build.0 = Debug|x86
+		{4AA459BF-425E-40F5-AE31-5EE97304C538}.Release|x64.ActiveCfg = Release|x64
+		{4AA459BF-425E-40F5-AE31-5EE97304C538}.Release|x64.Build.0 = Release|x64
+		{4AA459BF-425E-40F5-AE31-5EE97304C538}.Release|x86.ActiveCfg = Release|x86
+		{4AA459BF-425E-40F5-AE31-5EE97304C538}.Release|x86.Build.0 = Release|x86
+		{4F74D778-91E1-4CB6-974A-8B0C2D5B9C09}.Debug|x64.ActiveCfg = Debug|x64
+		{4F74D778-91E1-4CB6-974A-8B0C2D5B9C09}.Debug|x64.Build.0 = Debug|x64
+		{4F74D778-91E1-4CB6-974A-8B0C2D5B9C09}.Debug|x86.ActiveCfg = Debug|x86
+		{4F74D778-91E1-4CB6-974A-8B0C2D5B9C09}.Debug|x86.Build.0 = Debug|x86
+		{4F74D778-91E1-4CB6-974A-8B0C2D5B9C09}.Release|x64.ActiveCfg = Release|x64
+		{4F74D778-91E1-4CB6-974A-8B0C2D5B9C09}.Release|x64.Build.0 = Release|x64
+		{4F74D778-91E1-4CB6-974A-8B0C2D5B9C09}.Release|x86.ActiveCfg = Release|x86
+		{4F74D778-91E1-4CB6-974A-8B0C2D5B9C09}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8AD0A00D-365F-48B7-B112-6A1AFE13C535}
 	EndGlobalSection
 EndGlobal

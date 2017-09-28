@@ -105,7 +105,7 @@ namespace PluginParentChild
                     break;
 
                 default:
-                    API.Log(API.LogType.Error, "ParentChild.dll: Type=" + type + " not valid");
+                    api.Log(API.LogType.Error, "ParentChild.dll: Type=" + type + " not valid");
                     break;
             }
         }
@@ -196,7 +196,7 @@ namespace PluginParentChild
 
             if (ParentMeasure == null)
             {
-                API.Log(API.LogType.Error, "ParentChild.dll: ParentName=" + parentName + " not valid");
+                api.Log(API.LogType.Error, "ParentChild.dll: ParentName=" + parentName + " not valid");
             }
         }
 
