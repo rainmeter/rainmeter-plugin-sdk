@@ -8,4 +8,4 @@ The Rainmeter plugin software development kit contains the necessary tools and e
 
 The SDK can be built using any version of Visual Studio 2017. If you don't already have VS2017, you can download the free "Visual Studio Community" version [here](https://www.visualstudio.com/downloads/).
 
-**Documentation:** The documentation is available at the [wiki](https://github.com/rainmeter/rainmeter-plugin-sdk/wiki/_pages).
+**Documentation:** The documentation is available at https://docs.rainmeter.net/developers/.
