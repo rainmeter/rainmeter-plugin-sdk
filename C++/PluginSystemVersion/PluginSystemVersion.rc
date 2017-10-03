@@ -25,7 +25,7 @@ BEGIN
         BLOCK "040904E4"
         BEGIN
             VALUE "FileVersion", "1.0.0.0"
-            VALUE "LegalCopyright", "© 2014 - Birunthan Mohanathas"
+            VALUE "LegalCopyright", "© 2017 - Rainmeter Team"
             VALUE "ProductName", "Rainmeter"
 #ifdef _WIN64
             VALUE "ProductVersion", "3.0.2.2161 (64-bit)"

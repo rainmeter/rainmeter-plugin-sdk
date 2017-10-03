@@ -1,23 +1,13 @@
-/*
-  Copyright (C) 2014 Birunthan Mohanathas
-
-  This program is free software; you can redistribute it and/or
-  modify it under the terms of the GNU General Public License
-  as published by the Free Software Foundation; either version 2
-  of the License, or (at your option) any later version.
-
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with this program; if not, write to the Free Software
-  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-*/
+/* Copyright (C) 2017 Rainmeter Project Developers
+ *
+ * This Source Code Form is subject to the terms of the GNU General Public
+ * License; either version 2 of the License, or (at your option) any later
+ * version. If a copy of the GPL was not distributed with this file, You can
+ * obtain one at <https://www.gnu.org/licenses/gpl-2.0.html>. */
 
 #include <Windows.h>
 #include <cstdio>
+#include <string>
 #include "../../API/RainmeterAPI.h"
 
 // Overview: This example demonstrates the basic concept of Rainmeter C++ plugins.
@@ -26,54 +16,46 @@
 /*
 	[Rainmeter]
 	Update=1000
+	DynamicWindowSize=1
 	BackgroundMode=2
-	SolidColor=000000
+	SolidColor=255,255,255
 
 	[mString]
 	Measure=Plugin
-	Plugin=SystemVersion.dll
+	Plugin=SystemVersion
 	Type=String
 
 	[mMajor]
 	Measure=Plugin
-	Plugin=SystemVersion.dll
+	Plugin=SystemVersion
 	Type=Major
 
 	[mMinor]
 	Measure=Plugin
-	Plugin=SystemVersion.dll
+	Plugin=SystemVersion
 	Type=Minor
 
 	[mNumber]
 	Measure=Plugin
-	Plugin=SystemVersion.dll
+	Plugin=SystemVersion
 	Type=Number
 
 	[Text1]
-	Meter=STRING
+	Meter=String
 	MeasureName=mString
 	MeasureName2=mMajor
 	MeasureName3=mMinor
 	MeasureName4=mNumber
-	X=5
-	Y=5
-	W=300
-	H=70
-	FontColor=FFFFFF
 	Text="String: %1#CRLF#Major: %2#CRLF#Minor: %3#CRLF#Number: %4#CRLF#"
 
 	[Text2]
-	Meter=STRING
+	Meter=String
 	MeasureName=mString
 	MeasureName2=mMajor
 	MeasureName3=mMinor
 	MeasureName4=mNumber
 	NumOfDecimals=1
-	X=5
 	Y=5R
-	W=300
-	H=70
-	FontColor=FFFFFF
 	Text="String: %1#CRLF#Major: %2#CRLF#Minor: %3#CRLF#Number: %4#CRLF#"
 */
 
@@ -88,8 +70,11 @@ enum MeasureType
 struct Measure
 {
 	MeasureType type;
+	std::wstring strValue;
 
-	Measure() : type(MEASURE_MAJOR) {}
+	Measure() :
+		type(MEASURE_MAJOR),
+		strValue() {}
 };
 
 PLUGIN_EXPORT void Initialize(void** data, void* rm)
@@ -121,7 +106,7 @@ PLUGIN_EXPORT void Reload(void* data, void* rm, double* maxValue)
 	}
 	else
 	{
-		RmLog(rm, LOG_ERROR, L"SystemVersion.dll: Invalid Type=");
+		RmLog(rm, LOG_ERROR, L"Invalid \"Type\"");
 	}
 }
 
@@ -145,9 +130,21 @@ PLUGIN_EXPORT double Update(void* data)
 
 	case MEASURE_NUMBER:
 		return (double)osvi.dwMajorVersion + ((double)osvi.dwMinorVersion / 10.0);
+
+	case MEASURE_STRING:
+		{
+			WCHAR buffer[128];
+			_snwprintf_s(buffer, _TRUNCATE, L"%i.%i (Build %i)",
+				(int)osvi.dwMajorVersion, (int)osvi.dwMinorVersion, (int)osvi.dwBuildNumber);
+			measure->strValue = buffer;
+		}
+		break;
 	}
 
-	// MEASURE_STRING is not a number and and therefore will be returned in GetString.
+	// MEASURE_STRING is not a number and therefore will be returned in GetString. However it is
+	//  recommended that you do any processing here in the Update function rather than the GetString
+	//  function since GetString can be called multiple times during the update cycle. Store any
+	//  string values in your Measure structure and return it in GetString.
 
 	return 0.0;
 }
@@ -155,31 +152,23 @@ PLUGIN_EXPORT double Update(void* data)
 PLUGIN_EXPORT LPCWSTR GetString(void* data)
 {
 	Measure* measure = (Measure*)data;
-	static WCHAR buffer[128];
 
-	// GetVersionEx is an inexpensive operation, so we repeat it here. If what you
-	// measure requires an expensive operation, it is reccomended that you do it
-	// in Update (which is called only once per update cycle), store it in the
-	// Measure structure, and return it here. As GetString may be called multiple
-	// times per update cycle, it is not reccomended to do expensive operations here.
-	OSVERSIONINFOEX osvi = {sizeof(OSVERSIONINFOEX)};
-	if (!GetVersionEx((OSVERSIONINFO*)&osvi))
+	// Although GetVersionEx is a rather inexpensive operation, it is recommended to
+	// do any processing in the Update function. See the comments above.
+	if (!measure->strValue.empty())
 	{
-		return NULL;
-	}
-
-	switch (measure->type)
-	{
-	case MEASURE_STRING:
-		_snwprintf_s(buffer, _TRUNCATE, L"%i.%i (Build %i)", (int)osvi.dwMajorVersion, (int)osvi.dwMinorVersion, (int)osvi.dwBuildNumber);
-		return buffer;
+		switch (measure->type)
+		{
+		case MEASURE_STRING:
+			return measure->strValue.c_str();
+		}
 	}
 
 	// MEASURE_MAJOR, MEASURE_MINOR, and MEASURE_NUMBER are numbers. Therefore,
-	// NULL is returned here for them. This is to inform Rainmeter that it can
+	// |nullptr| is returned here for them. This is to inform Rainmeter that it can
 	// treat those types as numbers.
 
-	return NULL;
+	return nullptr;
 }
 
 PLUGIN_EXPORT void Finalize(void* data)
