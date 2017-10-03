@@ -25,7 +25,7 @@ BEGIN
         BLOCK "040904E4"
         BEGIN
             VALUE "FileVersion", "1.0.0.0"
-            VALUE "LegalCopyright", "© 2014 - YOUR NAME"
+            VALUE "LegalCopyright", "© 2017 - YOUR NAME"
 
             // Don't change the entries below!
             VALUE "ProductName", "Rainmeter"
