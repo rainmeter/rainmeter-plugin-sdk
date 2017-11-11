@@ -68,7 +68,7 @@ namespace Rainmeter
         [DllImport("Rainmeter.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall)]
         private extern static int RmLog(IntPtr rm, LogType type, string message);
 
-        private enum RmGetType
+        private enum RmGetType:int
         {
             MeasureName = 0,
             Skin = 1,
@@ -77,7 +77,7 @@ namespace Rainmeter
             SkinWindowHandle = 4
         }
 
-        public enum LogType
+        public enum LogType:int
         {
             Error = 1,
             Warning = 2,
@@ -329,8 +329,9 @@ namespace Rainmeter
         }
 
         /// <summary>
-        /// DEPRECATED: Save your rm or api reference and use Log(rm, type, message). Sends a message to the Rainmeter log with no source.
+        /// Sends a message to the Rainmeter log with no source.
         /// </summary>
+        [Obsolete("Save your rm or api reference and use Log(rm, type, message).")]
         public static void Log(int type, string message)
         {
             LSLog(type, null, message);
