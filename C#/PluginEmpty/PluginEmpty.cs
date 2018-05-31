@@ -34,7 +34,11 @@ namespace PluginEmpty
         [DllExport]
         public static void Finalize(IntPtr data)
         {
-            GCHandle.FromIntPtr(((Measure)data).buffer).Free();
+            Measure measure = (Measure)data;
+            if (measure.buffer != IntPtr.Zero)
+            {
+                GCHandle.FromIntPtr(((Measure)data).buffer).Free();
+            }
             GCHandle.FromIntPtr(data).Free();
         }
 
