@@ -19,6 +19,7 @@ namespace PluginEmpty
         {
             return (Measure)GCHandle.FromIntPtr(data).Target;
         }
+        public IntPtr buffer = IntPtr.Zero;
     }
 
     public class Plugin
@@ -33,6 +34,7 @@ namespace PluginEmpty
         [DllExport]
         public static void Finalize(IntPtr data)
         {
+            GCHandle.FromIntPtr(((Measure)data).buffer).Free();
             GCHandle.FromIntPtr(data).Free();
         }
 
@@ -54,8 +56,15 @@ namespace PluginEmpty
         //public static IntPtr GetString(IntPtr data)
         //{
         //    Measure measure = (Measure)data;
+        //    if (measure.buffer != IntPtr.Zero)
+        //    {
+        //        Marshal.FreeHGlobal(measure.buffer);
+        //        measure.buffer = IntPtr.Zero;
+        //    }
         //
-        //    return Marshal.StringToHGlobalUni(""); //returning IntPtr.Zero will result in it not being used
+        //    measure.buffer = Marshal.StringToHGlobalUni("");
+        //
+        //    return measure.buffer;
         //}
 
         //[DllExport]
@@ -69,8 +78,16 @@ namespace PluginEmpty
         //    [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPWStr, SizeParamIndex = 1)] string[] argv)
         //{
         //    Measure measure = (Measure)data;
+        //    if (measure.buffer != IntPtr.Zero)
+        //    {
+        //        Marshal.FreeHGlobal(measure.buffer);
+        //        measure.buffer = IntPtr.Zero;
+        //    }
         //
-        //    return Marshal.StringToHGlobalUni(""); //returning IntPtr.Zero will result in it not being used
+        //    measure.buffer = Marshal.StringToHGlobalUni("");
+        //
+        //    return measure.buffer;
         //}
     }
 }
+

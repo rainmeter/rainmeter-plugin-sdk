@@ -68,7 +68,8 @@ namespace PluginSectionVariables
         {
             return (Measure)GCHandle.FromIntPtr(data).Target;
         }
-        public string myString; //The string returned in GetString is stored here
+        public string inputStr; //The string returned in GetString is stored here
+        public IntPtr buffer; //Prevent marshalAs from causing memory leaks by clearing this before assigning
     }
 
     public class Plugin
@@ -87,7 +88,7 @@ namespace PluginSectionVariables
             Rainmeter.API api = (Rainmeter.API)rm;
 
             //Read measure for an Input string
-            measure.myString = api.ReadString("Input", "");
+            measure.inputStr = api.ReadString("Input", "");
         }
 
         [DllExport]
@@ -101,25 +102,38 @@ namespace PluginSectionVariables
         public static IntPtr GetString(IntPtr data)
         {
             Measure measure = (Measure)data;
-            return Marshal.StringToHGlobalUni(measure.myString);
-        }
+            if (measure.buffer != IntPtr.Zero)
+            {
+                Marshal.FreeHGlobal(measure.buffer);
+                measure.buffer = IntPtr.Zero;
+            }
 
-        //If you are comparing this to the C++ example a stringBuffer is not needed since Marshal handles that
+            measure.buffer = Marshal.StringToHGlobalUni(measure.inputStr);
+            return measure.buffer;
+        }
 
         [DllExport]
         public static IntPtr ToUpper(IntPtr data, int argc,
             [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPWStr, SizeParamIndex = 1)] string[] argv)
         {
             Measure measure = (Measure)data;
+            if (measure.buffer != IntPtr.Zero)
+            {
+                Marshal.FreeHGlobal(measure.buffer);
+                measure.buffer = IntPtr.Zero;
+            }
 
             //If we are given one or more arguments convert to uppercase the first one
             if (argc > 0)
             {
-                return Marshal.StringToHGlobalUni(argv[0].ToUpper());
+                measure.buffer = Marshal.StringToHGlobalUni(argv[0].ToUpper());
             }
-
             //If we are given no arguments  convert to uppercase the string we recived with the input option
-            return Marshal.StringToHGlobalUni(measure.myString.ToUpper());
+            else
+            {
+                measure.buffer = Marshal.StringToHGlobalUni(measure.inputStr.ToUpper());
+            }
+            return measure.buffer;
         }
 
         [DllExport]
@@ -127,15 +141,23 @@ namespace PluginSectionVariables
             [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPWStr, SizeParamIndex = 1)] string[] argv)
         {
             Measure measure = (Measure)data;
-
-            //If we are given one or more arguments convert to lowercase the first one
-            if (argc > 0)
+            if (measure.buffer != IntPtr.Zero)
             {
-                return Marshal.StringToHGlobalUni(argv[0].ToLower());
+                Marshal.FreeHGlobal(measure.buffer);
+                measure.buffer = IntPtr.Zero;
             }
 
-            //If we are given no arguments  convert to lowercase the string we recived with the input option
-            return Marshal.StringToHGlobalUni(measure.myString.ToLower());
+            //If we are given one or more arguments convert to uppercase the first one
+            if (argc > 0)
+            {
+                measure.buffer = Marshal.StringToHGlobalUni(argv[0].ToUpper());
+            }
+            //If we are given no arguments  convert to uppercase the string we recived with the input option
+            else
+            {
+                measure.buffer = Marshal.StringToHGlobalUni(measure.inputStr.ToLower());
+            }
+            return measure.buffer;
         }
 
         [DllExport]
