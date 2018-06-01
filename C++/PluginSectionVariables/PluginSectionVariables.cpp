@@ -50,10 +50,12 @@
 
 struct Measure
 {
-	std::wstring strValue;
+	std::wstring inputStr;
+	std::wstring buffer;
 
 	Measure() :
-		strValue() {}
+		inputStr() {},
+		buffer() {}
 };
 
 PLUGIN_EXPORT void Initialize(void** data, void* rm)
@@ -65,7 +67,7 @@ PLUGIN_EXPORT void Initialize(void** data, void* rm)
 PLUGIN_EXPORT void Reload(void* data, void* rm, double* maxValue)
 {
 	Measure* measure = (Measure*)data;
-	measure->strValue = RmReadString(rm, L"Input", L"");
+	measure->inputStr = RmReadString(rm, L"Input", L"");
 }
 
 PLUGIN_EXPORT double Update(void* data)
@@ -77,43 +79,45 @@ PLUGIN_EXPORT double Update(void* data)
 PLUGIN_EXPORT LPCWSTR GetString(void* data)
 {
 	Measure* measure = (Measure*)data;
-	return  measure->strValue.c_str();  // Might be an empty string if no |Input| option is defined
+	return  measure->inputStr.c_str();  // Might be an empty string if no |Input| option is defined
 }
 
 PLUGIN_EXPORT LPCWSTR ToUpper(void* data, const int argc, const WCHAR* argv[])
 {
-	static std::wstring buffer;
 	Measure* measure = (Measure*)data;
 
+	//If there was an argument passed to the function transform that
 	if (argc > 0)
 	{
-		buffer = argv[0];  // Only transform the first argument
+		measure->buffer = argv[0];  // Only transform the first argument
 	}
+	//Else transform the |Input| option
 	else
 	{
-		buffer = measure->strValue;
+		measure->buffer = measure->inputStr;
 	}
 
-	std::transform(buffer.begin(), buffer.end(), buffer.begin(), std::towupper);
-	return buffer.c_str();
+	std::transform(measure->buffer.begin(), measure->buffer.end(), measure->buffer.begin(), std::towupper);
+	return measure->buffer.c_str();
 }
 
 PLUGIN_EXPORT LPCWSTR ToLower(void* data, const int argc, const WCHAR* argv[])
 {
-	static std::wstring buffer;
 	Measure* measure = (Measure*)data;
 
+	//If there was an argument passed to the function transform that
 	if (argc > 0)
 	{
-		buffer = argv[0];  // Only transform the first argument
+		measure->buffer = argv[0];  // Only transform the first argument
 	}
+	//Else transform the |Input| option
 	else
 	{
-		buffer = measure->strValue;
+		measure->buffer = measure->inputStr;
 	}
 
-	std::transform(buffer.begin(), buffer.end(), buffer.begin(), std::towlower);
-	return buffer.c_str();
+	std::transform(measure->buffer.begin(), measure->buffer.end(), measure->buffer.begin(), std::towlower);
+	return measure->buffer.c_str();
 }
 
 PLUGIN_EXPORT void Finalize(void* data)
