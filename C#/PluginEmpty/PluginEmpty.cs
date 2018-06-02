@@ -37,7 +37,7 @@ namespace PluginEmpty
             Measure measure = (Measure)data;
             if (measure.buffer != IntPtr.Zero)
             {
-                GCHandle.FromIntPtr(((Measure)data).buffer).Free();
+                Marshal.FreeHGlobal(measure.buffer);
             }
             GCHandle.FromIntPtr(data).Free();
         }
