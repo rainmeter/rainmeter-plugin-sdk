@@ -54,7 +54,7 @@ struct Measure
 	std::wstring buffer;
 
 	Measure() :
-		inputStr() {},
+		inputStr(),
 		buffer() {}
 };
 
