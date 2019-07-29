@@ -89,7 +89,8 @@ struct ChildMeasure
 	ParentMeasure* parent;
 
 	ChildMeasure() : 
-		type(MEASURE_A) {}
+		type(MEASURE_A),
+		parent(nullptr) {}
 };
 
 std::vector<ParentMeasure*> g_ParentMeasures;
