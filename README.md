@@ -1,4 +1,4 @@
-The Rainmeter plugin software development kit contains the necessary tools and examples to build plugins in C/C++ and C#. Note that plugins built with the SDK require Rainmeter 2.3 beta or higher.
+The Rainmeter plugin software development kit contains the necessary tools and examples to build plugins in C/C++ and C#. Note that plugins built with the SDK require Rainmeter 4.5 or higher.
 
 **Download:**
 
@@ -6,6 +6,6 @@ The Rainmeter plugin software development kit contains the necessary tools and e
 *   Use svn (`svn checkout https://github.com/rainmeter/rainmeter-plugin-sdk/trunk rainmeter-plugin-sdk`)
 *   Download the [current snapshot](https://github.com/rainmeter/rainmeter-plugin-sdk/zipball/master) as a .zip archive.
 
-The SDK can be built using any version of Visual Studio 2019. If you don't already have VS2019, you can download the free "Visual Studio Community" version [here](https://www.visualstudio.com/downloads/).
+The SDK can be built using any version of Visual Studio 2022. If you don't already have VS2022, you can download the free "Visual Studio Community" version [here](https://www.visualstudio.com/downloads/).
 
 **Documentation:** The documentation is available at https://docs.rainmeter.net/developers/.
