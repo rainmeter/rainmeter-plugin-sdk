@@ -260,7 +260,7 @@ namespace Rainmeter
         /// {
         ///     Measure measure = (Measure)data;
         ///     Rainmeter.API api = (Rainmeter.API)rm;
-        ///     double value = api.ReadIntFromSection("Section", "Option", 20);
+        ///     int value = api.ReadIntFromSection("Section", "Option", 20);
         /// }
         /// </code>
         /// </example>
