@@ -161,8 +161,6 @@ namespace PluginSystemVersion
 
     public static class Plugin
     {
-        static IntPtr StringBuffer = IntPtr.Zero;
-
         [DllExport]
         public static void Initialize(ref IntPtr data, IntPtr rm)
         {
@@ -173,12 +171,6 @@ namespace PluginSystemVersion
         public static void Finalize(IntPtr data)
         {
             GCHandle.FromIntPtr(data).Free();
-
-            if (StringBuffer != IntPtr.Zero)
-            {
-                Marshal.FreeHGlobal(StringBuffer);
-                StringBuffer = IntPtr.Zero;
-            }
         }
 
         [DllExport]
@@ -199,19 +191,7 @@ namespace PluginSystemVersion
         public static IntPtr GetString(IntPtr data)
         {
             Measure measure = (Measure)GCHandle.FromIntPtr(data).Target;
-            if (StringBuffer != IntPtr.Zero)
-            {
-                Marshal.FreeHGlobal(StringBuffer);
-                StringBuffer = IntPtr.Zero;
-            }
-
-            string stringValue = measure.GetString();
-            if (stringValue != null)
-            {
-                StringBuffer = Marshal.StringToHGlobalUni(stringValue);
-            }
-
-            return StringBuffer;
+            return Rainmeter.StringBuffer.Update(measure.GetString());
         }
     }
 }

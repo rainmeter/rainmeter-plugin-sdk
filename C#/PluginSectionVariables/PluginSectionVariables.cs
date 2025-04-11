@@ -1,19 +1,19 @@
 ﻿/*
-Copyright (C) 2017 Trevor Hamilton
+  Copyright (C) 2017 Trevor Hamilton
 
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License
+  as published by the Free Software Foundation; either version 2
+  of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
 using System;
@@ -68,8 +68,8 @@ namespace PluginSectionVariables
         {
             return (Measure)GCHandle.FromIntPtr(data).Target;
         }
-        public string inputStr; //The string returned in GetString is stored here
-        public IntPtr buffer; //Prevent marshalAs from causing memory leaks by clearing this before assigning
+
+        public string inputStr;
     }
 
     public class Plugin
@@ -87,7 +87,6 @@ namespace PluginSectionVariables
             Measure measure = (Measure)data;
             Rainmeter.API api = (Rainmeter.API)rm;
 
-            //Read measure for an Input string
             measure.inputStr = api.ReadString("Input", "");
         }
 
@@ -102,14 +101,7 @@ namespace PluginSectionVariables
         public static IntPtr GetString(IntPtr data)
         {
             Measure measure = (Measure)data;
-            if (measure.buffer != IntPtr.Zero)
-            {
-                Marshal.FreeHGlobal(measure.buffer);
-                measure.buffer = IntPtr.Zero;
-            }
-
-            measure.buffer = Marshal.StringToHGlobalUni(measure.inputStr);
-            return measure.buffer;
+            return Rainmeter.StringBuffer.Update(measure.inputStr);
         }
 
         [DllExport]
@@ -117,23 +109,15 @@ namespace PluginSectionVariables
             [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPWStr, SizeParamIndex = 1)] string[] argv)
         {
             Measure measure = (Measure)data;
-            if (measure.buffer != IntPtr.Zero)
-            {
-                Marshal.FreeHGlobal(measure.buffer);
-                measure.buffer = IntPtr.Zero;
-            }
 
-            //If we are given one or more arguments convert to uppercase the first one
+            // If we are given one or more arguments convert to uppercase the first one
             if (argc > 0)
             {
-                measure.buffer = Marshal.StringToHGlobalUni(argv[0].ToUpper());
+                return Rainmeter.StringBuffer.Update(argv[0].ToUpper());
             }
-            //If we are given no arguments  convert to uppercase the string we recived with the input option
-            else
-            {
-                measure.buffer = Marshal.StringToHGlobalUni(measure.inputStr.ToUpper());
-            }
-            return measure.buffer;
+
+            // If we are given no arguments convert to uppercase the string we recived with the input option
+            return Rainmeter.StringBuffer.Update(measure.inputStr.ToUpper());
         }
 
         [DllExport]
@@ -141,33 +125,19 @@ namespace PluginSectionVariables
             [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPWStr, SizeParamIndex = 1)] string[] argv)
         {
             Measure measure = (Measure)data;
-            if (measure.buffer != IntPtr.Zero)
-            {
-                Marshal.FreeHGlobal(measure.buffer);
-                measure.buffer = IntPtr.Zero;
-            }
 
-            //If we are given one or more arguments convert to uppercase the first one
             if (argc > 0)
             {
-                measure.buffer = Marshal.StringToHGlobalUni(argv[0].ToUpper());
+                return Rainmeter.StringBuffer.Update(argv[0].ToUpper());
             }
-            //If we are given no arguments  convert to uppercase the string we recived with the input option
-            else
-            {
-                measure.buffer = Marshal.StringToHGlobalUni(measure.inputStr.ToLower());
-            }
-            return measure.buffer;
+
+            return Rainmeter.StringBuffer.Update(measure.inputStr.ToLower());
         }
 
         [DllExport]
         public static void Finalize(IntPtr data)
         {
             Measure measure = (Measure)data;
-            if (measure.buffer != IntPtr.Zero)
-            {
-                Marshal.FreeHGlobal(measure.buffer);
-            }
             GCHandle.FromIntPtr(data).Free();
         }
     }
