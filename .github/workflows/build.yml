@@ -1,0 +1,19 @@
+name: build
+
+on: push
+
+jobs:
+  build:
+    runs-on: windows-2025
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v4
+
+      - name: Setup msbuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Build C# SDK
+        run: msbuild.exe C#\SDK-CS.sln -t:rebuild -p:Configuration=Release -p:Platform=x64
+
+      - name: Build C++ SDK
+        run: msbuild.exe C++\SDK-CPP.sln -t:rebuild  -p:Configuration=Release -p:Platform=x64
