@@ -5,10 +5,9 @@ using Rainmeter;
 
 // Overview: This is a blank canvas on which to build your plugin.
 
-// Note: GetString, ExecuteBang and an unnamed function for use as a section variable
+// Note: GetString, ExecuteBang and MyCustomFunction for use as a section variable
 // have been commented out. If you need GetString, ExecuteBang, and/or section variables 
-// and you have read what they are used for from the SDK docs, uncomment the function(s)
-// and/or add a function name to use for the section variable function(s). 
+// and you have read what they are used for from the SDK docs, uncomment the function(s).
 // Otherwise leave them commented out (or get rid of them)!
 
 namespace PluginEmpty
@@ -19,7 +18,8 @@ namespace PluginEmpty
         {
             return (Measure)GCHandle.FromIntPtr(data).Target;
         }
-        public IntPtr buffer = IntPtr.Zero;
+
+        // Include your measure data/functions here.
     }
 
     public class Plugin
@@ -35,10 +35,7 @@ namespace PluginEmpty
         public static void Finalize(IntPtr data)
         {
             Measure measure = (Measure)data;
-            if (measure.buffer != IntPtr.Zero)
-            {
-                Marshal.FreeHGlobal(measure.buffer);
-            }
+
             GCHandle.FromIntPtr(data).Free();
         }
 
@@ -52,7 +49,6 @@ namespace PluginEmpty
         public static double Update(IntPtr data)
         {
             Measure measure = (Measure)data;
-
             return 0.0;
         }
 
@@ -60,15 +56,7 @@ namespace PluginEmpty
         //public static IntPtr GetString(IntPtr data)
         //{
         //    Measure measure = (Measure)data;
-        //    if (measure.buffer != IntPtr.Zero)
-        //    {
-        //        Marshal.FreeHGlobal(measure.buffer);
-        //        measure.buffer = IntPtr.Zero;
-        //    }
-        //
-        //    measure.buffer = Marshal.StringToHGlobalUni("");
-        //
-        //    return measure.buffer;
+        //    return Rainmeter.StringBuffer.Update("");
         //}
 
         //[DllExport]
@@ -78,19 +66,10 @@ namespace PluginEmpty
         //}
 
         //[DllExport]
-        //public static IntPtr (IntPtr data, int argc,
+        //public static IntPtr MyCustomFunction(IntPtr data, int argc,
         //    [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPWStr, SizeParamIndex = 1)] string[] argv)
         //{
-        //    Measure measure = (Measure)data;
-        //    if (measure.buffer != IntPtr.Zero)
-        //    {
-        //        Marshal.FreeHGlobal(measure.buffer);
-        //        measure.buffer = IntPtr.Zero;
-        //    }
-        //
-        //    measure.buffer = Marshal.StringToHGlobalUni("");
-        //
-        //    return measure.buffer;
+        //    return Rainmeter.StringBuffer.Update("");
         //}
     }
 }
