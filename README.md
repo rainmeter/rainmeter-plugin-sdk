@@ -3,9 +3,8 @@ The Rainmeter plugin software development kit contains the necessary tools and e
 **Download:**
 
 *   Use git (`git clone git@github.com:rainmeter/rainmeter-plugin-sdk.git`)
-*   Use svn (`svn checkout https://github.com/rainmeter/rainmeter-plugin-sdk/trunk rainmeter-plugin-sdk`)
 *   Download the [current snapshot](https://github.com/rainmeter/rainmeter-plugin-sdk/zipball/master) as a .zip archive.
 
-The SDK can be built using any version of Visual Studio 2022. If you don't already have VS2022, you can download the free "Visual Studio Community" version [here](https://www.visualstudio.com/downloads/).
+The SDK can be built using Visual Studio 2022 or later (Visual Studio 2026 included). The C++ projects use whichever platform toolset the installed Visual Studio provides by default (v143, v144 or v145), so no project changes are needed when moving between versions. To force a specific toolset, build with `msbuild /p:PlatformToolset=v143` or change it in the project properties. If you don't already have Visual Studio, you can download the free "Community" version [here](https://www.visualstudio.com/downloads/).
 
-**Documentation:** The documentation is available at https://docs.rainmeter.net/developers/.
+**Documentation:** The documentation is available at [docs.rainmeter.net/developers](https://docs.rainmeter.net/developers/)
